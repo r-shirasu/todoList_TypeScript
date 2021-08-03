@@ -3,12 +3,22 @@ import "./App.scss";
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState([]);
+  const [task, setTask] = useState<string>("");
+
+  const onChangeForm = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTask(e.target.value);
+  };
 
   return (
     <div className="main">
       <h1>TO-DO LIST</h1>
       <form id="add">
-        <input type="text" placeholder="new task" />
+        <input
+          type="text"
+          placeholder="new task"
+          value={task}
+          onChange={(e) => onChangeForm(e)}
+        />
         <input type="submit" value="ADD" />
       </form>
       <div className="tasksBoard">
@@ -16,7 +26,7 @@ export const App: React.FC = () => {
           {todos.map((todo, index) => (
             <li key={`${todo}${index}`}>
               <span>×</span>
-              <label>{todo}</label>
+              <label>{todo.task}</label>
             </li>
           ))}
         </ul>
