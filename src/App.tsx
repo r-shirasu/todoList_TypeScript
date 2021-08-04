@@ -81,7 +81,7 @@ export const App: React.FC = () => {
           {todos.map((todo, index) => (
             <li key={`${todo}${index}`}>
               <span onClick={() => handleOnDelete(index)}>×</span>
-              <label>
+              <label className={todo.isChecked ? "checked" : ""}>
                 <input
                   type="checkbox"
                   checked={todo.isChecked}
