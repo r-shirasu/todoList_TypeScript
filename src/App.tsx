@@ -1,24 +1,62 @@
-import React from "react";
-import logo from "./logo.svg";
+import React, { useState } from "react";
 import "./App.scss";
 
-export const App = () => {
+interface Todo {
+  description: string;
+}
+
+export const App: React.FC = () => {
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [task, setTask] = useState("");
+  const [isShowAlertMessage, setIsShowMessage] = useState(false);
+
+  const onChangeForm = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTask(e.target.value);
+  };
+
+  const newToDo: Todo = {
+    description: task,
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (task === "") {
+      setIsShowMessage(true);
+      return;
+    }
+
+    setIsShowMessage(false);
+    setTodos([newToDo, ...todos]);
+    setTask("");
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="main">
+      <h1>TO-DO LIST</h1>
+      <form onSubmit={handleSubmit} id="add">
+        <input
+          type="text"
+          placeholder="new task"
+          value={task}
+          onChange={(e) => onChangeForm(e)}
+        />
+        <input type="submit" value="ADD" />
+      </form>
+      {isShowAlertMessage && (
+        <div className="alertMessage">Todoを入力してください</div>
+      )}
+      <div className="tasksBoard">
+        <ul id="todo-list">
+          {todos.map((todo, index) => (
+            <li key={`${todo}${index}`}>
+              <span>×</span>
+              <label>{todo.description}</label>
+            </li>
+          ))}
+        </ul>
+        <p>Clear</p>
+      </div>
     </div>
   );
 };
