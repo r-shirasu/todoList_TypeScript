@@ -35,6 +35,13 @@ export const App: React.FC = () => {
     setTodos([]);
   };
 
+  const handleOnDelete = (index: any) => {
+    const deleteArr = todos.filter((_, id) => {
+      return id !== index;
+    });
+    setTodos(deleteArr);
+  };
+
   return (
     <div className="main">
       <h1>TO-DO LIST</h1>
@@ -54,7 +61,7 @@ export const App: React.FC = () => {
         <ul id="todo-list">
           {todos.map((todo, index) => (
             <li key={`${todo}${index}`}>
-              <span>×</span>
+              <span onClick={() => handleOnDelete(index)}>×</span>
               <label>{todo.description}</label>
             </li>
           ))}
