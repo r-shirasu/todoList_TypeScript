@@ -31,6 +31,10 @@ export const App: React.FC = () => {
     setTask("");
   };
 
+  const clearAllTodos = () => {
+    setTodos([]);
+  };
+
   return (
     <div className="main">
       <h1>TO-DO LIST</h1>
@@ -55,7 +59,7 @@ export const App: React.FC = () => {
             </li>
           ))}
         </ul>
-        <p>Clear</p>
+        <p onClick={clearAllTodos}>Clear</p>
       </div>
     </div>
   );
