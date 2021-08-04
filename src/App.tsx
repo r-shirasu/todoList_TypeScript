@@ -1,18 +1,31 @@
 import React, { useState } from "react";
 import "./App.scss";
 
+interface Todo {
+  description: string;
+}
+
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState([]);
-  const [task, setTask] = useState<string>("");
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [task, setTask] = useState("");
 
   const onChangeForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTask(e.target.value);
   };
 
+  const newToDo: Todo = {
+    description: task,
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setTodos([newToDo, ...todos]);
+  };
+
   return (
     <div className="main">
       <h1>TO-DO LIST</h1>
-      <form id="add">
+      <form onSubmit={handleSubmit} id="add">
         <input
           type="text"
           placeholder="new task"
@@ -26,7 +39,7 @@ export const App: React.FC = () => {
           {todos.map((todo, index) => (
             <li key={`${todo}${index}`}>
               <span>×</span>
-              <label>{todo.task}</label>
+              <label>{todo.description}</label>
             </li>
           ))}
         </ul>
