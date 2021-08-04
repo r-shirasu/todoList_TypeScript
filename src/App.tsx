@@ -3,6 +3,7 @@ import "./App.scss";
 
 interface Todo {
   description: string;
+  isChecked: boolean;
 }
 
 export const App: React.FC = () => {
@@ -16,8 +17,10 @@ export const App: React.FC = () => {
 
   const newToDo: Todo = {
     description: task,
+    isChecked: false,
   };
 
+  // todo追加機能
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -31,15 +34,31 @@ export const App: React.FC = () => {
     setTask("");
   };
 
+  // クリア機能
   const clearAllTodos = () => {
     setTodos([]);
   };
 
+  // 特定のtodoを削除する機能
   const handleOnDelete = (index: any) => {
     const deleteArr = todos.filter((_, id) => {
       return id !== index;
     });
     setTodos(deleteArr);
+  };
+
+  // チェック機能
+  const handleOnCheck = (index: any) => {
+    const checkedTodos = todos.map((todo, _index) => {
+      if (_index !== index) {
+        return todo;
+      }
+      return {
+        description: todo.description,
+        isChecked: !todo.isChecked,
+      };
+    });
+    setTodos(checkedTodos);
   };
 
   return (
@@ -62,7 +81,15 @@ export const App: React.FC = () => {
           {todos.map((todo, index) => (
             <li key={`${todo}${index}`}>
               <span onClick={() => handleOnDelete(index)}>×</span>
-              <label>{todo.description}</label>
+              <label className={todo.isChecked ? "checked" : ""}>
+                <input
+                  type="checkbox"
+                  checked={todo.isChecked}
+                  name="check"
+                  onChange={() => handleOnCheck(index)}
+                />
+                {todo.description}
+              </label>
             </li>
           ))}
         </ul>
