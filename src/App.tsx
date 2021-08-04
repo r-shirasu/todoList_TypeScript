@@ -8,6 +8,7 @@ interface Todo {
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [task, setTask] = useState("");
+  const [isShowAlertMessage, setIsShowMessage] = useState(false);
 
   const onChangeForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTask(e.target.value);
@@ -19,7 +20,15 @@ export const App: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (task === "") {
+      setIsShowMessage(true);
+      return;
+    }
+
+    setIsShowMessage(false);
     setTodos([newToDo, ...todos]);
+    setTask("");
   };
 
   return (
@@ -34,6 +43,9 @@ export const App: React.FC = () => {
         />
         <input type="submit" value="ADD" />
       </form>
+      {isShowAlertMessage && (
+        <div className="alertMessage">Todoを入力してください</div>
+      )}
       <div className="tasksBoard">
         <ul id="todo-list">
           {todos.map((todo, index) => (
