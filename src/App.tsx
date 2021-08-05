@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import "./App.scss";
 
-interface Todo {
+type Todo = {
   description: string;
   isChecked: boolean;
-}
+};
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
