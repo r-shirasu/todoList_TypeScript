@@ -40,7 +40,7 @@ export const App: React.FC = () => {
   };
 
   // 特定のtodoを削除する機能
-  const handleOnDelete = (index: unknown) => {
+  const handleOnDelete = (index: number) => {
     const deleteArr = todos.filter((_, id) => {
       return id !== index;
     });
@@ -48,7 +48,7 @@ export const App: React.FC = () => {
   };
 
   // チェック機能
-  const handleOnCheck = (index: unknown) => {
+  const handleOnCheck = (index: number) => {
     const checkedTodos = todos.map((todo, _index) => {
       if (_index !== index) {
         return todo;
